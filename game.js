@@ -29,6 +29,7 @@ for (var i = 0; i < colBricks; i++) {
 //score definitions
 var score = 0;
 var gameWon = false;
+var lives = 3;
 //input definitions
 var rightPressed = false;
 var leftPressed = false;
@@ -41,6 +42,7 @@ function draw() {
     drawGameWon();
   } else {
     drawScore();
+    drawLives();
   }
   drawBricks();
   collisionDetection();
@@ -57,6 +59,18 @@ function draw() {
   } else if(y + dy > canvas.height - ballRadius - paddleHeight) {
     if(x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
+    } else {
+      lives--;
+      if(!lives) {
+        alert("Game Over");
+        document.location.reload();
+      } else {
+        x = canvas.width/2;
+        y = canvas.height - 30;
+        dx = 2;
+        dy = -2;
+        paddleX = (canvas.width - paddleWidth)/2;
+      }
     }
   }
 
@@ -123,6 +137,12 @@ function drawScore() {
   ctx.font = "16px Helvetica";
   ctx.fillStyle = "#000000";
   ctx.fillText("Score: " + score, 8, 20);
+}
+
+function drawLives() {
+  ctx.font = "16px Helvetica";
+  ctx.fillStyle = "#000000";
+  ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function drawGameWon() {
