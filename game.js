@@ -12,7 +12,7 @@ var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth)/2;
 //brick definitions
-var rowBricks = 3;
+var rowBricks = 1;
 var colBricks = 5;
 var brickWidth = 75;
 var brickHeight = 20;
@@ -26,6 +26,9 @@ for (var i = 0; i < colBricks; i++) {
     bricks[i][j] = {x: 0, y: 0, status: 1};
   }
 }
+//score definitions
+var score = 0;
+var gameWon = false;
 //input definitions
 var rightPressed = false;
 var leftPressed = false;
@@ -34,6 +37,11 @@ function draw() {
   ctx.clearRect(0,0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
+  if(gameWon) {
+    drawGameWon();
+  } else {
+    drawScore();
+  }
   drawBricks();
   collisionDetection();
   x += dx;
@@ -46,7 +54,7 @@ function draw() {
 
   if(y + dy < ballRadius) {
     dy = -dy;
-  } else if(y + dy > canvas.height - ballRadius - paddleHeight/2) {
+  } else if(y + dy > canvas.height - ballRadius - paddleHeight) {
     if(x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
     }
@@ -101,10 +109,28 @@ function collisionDetection() {
         if(collidedWithBrick(brick)) {
           dy = -dy;
           brick.status = 0;
+          score += 100;
+          if(score/100 == colBricks * rowBricks) {
+            gameWon = true;
+          }
         }
       }
     }
   }
+}
+
+function drawScore() {
+  ctx.font = "16px Helvetica";
+  ctx.fillStyle = "#000000";
+  ctx.fillText("Score: " + score, 8, 20);
+}
+
+function drawGameWon() {
+  ctx.font = "24px Helvetica";
+  var date = Date.now();
+  ctx.fillStyle = date % 1600 < 800 ? "#FFFFFF" : "#ee1414";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText("Game Won!", canvas.width/2, canvas.height/2);
 }
 
 $(document).keydown(keyDownHandler);
