@@ -135,6 +135,7 @@ function drawGameWon() {
 
 $(document).keydown(keyDownHandler);
 $(document).keyup(keyUpHandler);
+$(document).mousemove(mouseMoveHandler);
 
 function keyDownHandler(event) {
   if(event.keyCode == 39) {
@@ -149,6 +150,13 @@ function keyUpHandler(event) {
     rightPressed = false;
   } else if(event.keyCode == 37) {
     leftPressed = false;
+  }
+}
+
+function mouseMoveHandler(event) {
+  var relativeX = event.clientX - canvas.offsetLeft;
+  if(relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth/2;
   }
 }
 
