@@ -1,24 +1,41 @@
 var canvas = $("#game-canvas")[0];
 var ctx = canvas.getContext("2d");
-
+//circle definitions
 var x = canvas.width/2;
 var y = canvas.height-30;
 var dx = 2;
 var dy = -2;
 
 var ballRadius = 10;
-
+//paddle definitions
 var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth)/2;
-
+//brick definitions
+var rowBricks = 3;
+var colBricks = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+var bricks = [];
+for (var i = 0; i < colBricks; i++) {
+  bricks[i] = [];
+  for (var j = 0; j < rowBricks; j++) {
+    bricks[i][j] = {x: 0, y: 0, status: 1};
+  }
+}
+//input definitions
 var rightPressed = false;
 var leftPressed = false;
-
+//game loop stuff
 function draw() {
   ctx.clearRect(0,0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
+  drawBricks();
+  collisionDetection();
   x += dx;
   y += dy;
   requestAnimationFrame(draw);
@@ -29,7 +46,7 @@ function draw() {
 
   if(y + dy < ballRadius) {
     dy = -dy;
-  } else if(y + dy > canvas.height - ballRadius) {
+  } else if(y + dy > canvas.height - ballRadius - paddleHeight/2) {
     if(x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
     }
@@ -58,6 +75,38 @@ function drawPaddle() {
   ctx.closePath();
 }
 
+function drawBricks() {
+  for (var i = 0; i < colBricks; i++) {
+    for (var j = 0; j < rowBricks; j++) {
+      if(bricks[i][j].status == 1) {
+        var brickX = i * (brickWidth + brickPadding) + brickOffsetLeft;
+        var brickY = j * (brickHeight + brickPadding) + brickOffsetTop;
+        bricks[i][j].x = brickX;
+        bricks[i][j].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "#f01313";
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+
+function collisionDetection() {
+  for (var i = 0; i < colBricks; i++) {
+    for (var j = 0; j < rowBricks; j++) {
+      var brick = bricks[i][j];
+      if(brick.status == 1) {
+        if(collidedWithBrick(brick)) {
+          dy = -dy;
+          brick.status = 0;
+        }
+      }
+    }
+  }
+}
+
 $(document).keydown(keyDownHandler);
 $(document).keyup(keyUpHandler);
 
@@ -78,3 +127,22 @@ function keyUpHandler(event) {
 }
 
 requestAnimationFrame(draw);
+
+
+//helper methods
+function collidedWithBrick(brick) {
+  var distX = Math.abs(x - brick.x - brickWidth/2);
+  var distY = Math.abs(y - brick.y - brickHeight/2);
+  if(distX > (brickWidth/2 + ballRadius) ||
+     distY > (brickHeight/2 + ballRadius)) {
+    return false;
+  }
+
+  if(distX <= brickWidth/2 || distY <= brickHeight/2) {
+    return true;
+  }
+
+  var cornerX = distX - brickWidth/2;
+  var cornerY = distY - brickHeight/2;
+  return (cornerX*cornerX + cornerY*cornerY <= ballRadius*ballRadius);
+}
