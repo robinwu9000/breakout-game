@@ -12,7 +12,7 @@ var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth)/2;
 //brick definitions
-var rowBricks = 1;
+var rowBricks = 3;
 var colBricks = 5;
 var brickWidth = 75;
 var brickHeight = 20;
