@@ -8,8 +8,19 @@
   </head>
   <body>
     <canvas id="game-canvas" width="480" height="320"></canvas>
+    <script type="application/javascript" src="lib/ball.js"></script>
+    <script type="application/javascript" src="lib/paddle.js"></script>
+    <script type="application/javascript" src="lib/game.js"></script>
+
+    <script type="text/javascript">
+      (function() {
+        var canvas = $("#game-canvas")[0];
+        var ctx = canvas.getContext("2d");
+
+        var game = new Breakout.Game(canvas, ctx);
+        game.draw();
+      })();
+    </script>
   </body>
 
-  <script type="text/javascript" src="ball.js"></script>
-  <script type="text/javascript" src="game.js"></script>
 </html>
