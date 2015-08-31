@@ -14,14 +14,20 @@
     <script type="application/javascript" src="lib/brick_pattern.js"></script>
     <script type="application/javascript" src="lib/game.js"></script>
 
+    <div class="start-container">
+      <button type="button" id="start-button">New Game</button>
+    </div>
+
     <script type="text/javascript">
-      (function() {
+      $(function() {
         var canvas = $("#game-canvas")[0];
         var ctx = canvas.getContext("2d");
 
-        var game = new Breakout.Game(canvas, ctx);
-        game.draw();
-      })();
+        $("#start-button").click(function() {
+          var game = new Breakout.Game(canvas, ctx);
+          game.draw();
+        })
+      });
     </script>
   </body>
 
