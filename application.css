@@ -7,6 +7,7 @@ canvas {
   background: #eee;
   display: block;
   margin: 0 auto;
+  box-shadow: 0px 20px 40px;
 }
 
 .start-container {
@@ -58,3 +59,29 @@ canvas {
 	position:relative;
 	top:1px;
 }
+
+body {
+  background: url("background.jpg");
+  /*background: linear-gradient(313deg, #f9281d, #1c5ee4, #dfe41c);
+  background-size: 600% 600%;
+
+  -webkit-animation: AnimationName 30s ease infinite;
+  -moz-animation: AnimationName 30s ease infinite;
+  animation: AnimationName 30s ease infinite;*/
+}
+
+/*@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}*/
