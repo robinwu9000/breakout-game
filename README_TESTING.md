@@ -4,7 +4,7 @@ This repository now includes a comprehensive Jest testing suite that provides ro
 
 ## Test Coverage Summary
 
-- **95 tests passing** across 4 test suites
+- **108 tests passing** across 5 test suites
 - **84.29% overall code coverage**
 - Individual component coverage:
   - Ball: 100% coverage
